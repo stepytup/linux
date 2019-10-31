@@ -547,6 +547,17 @@ static void meson_uart_change_speed(struct uart_port *port, unsigned long baud)
 	if (port->line != 0)
 		baud = 115200;
 #endif
+	
+	// this part was added by Gaza, for Midi support.
+	// trace_printk() is not neccesarry, it is just for debugging.
+	trace_printk("Your baudrate: %ld\n", baud);
+	if(baud == 38400)
+	{
+		baud = 31250;
+		trace_printk("Change to %ld\n", baud);
+	}
+        //
+	
 	val = readl(port->membase + AML_UART_REG5);
 	val &= ~AML_UART_BAUD_MASK;
 	if (port->uartclk == 24000000) {
